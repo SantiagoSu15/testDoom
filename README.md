@@ -160,7 +160,6 @@ npm run start:prod
 
 # 📖 Documentación Swagger
 
-![Swagger](docs/img/swagger.png)
 
 ---
 
@@ -174,7 +173,7 @@ npm run start:prod
 
 ## Diagrama De Contenedores
 
-![contenedor](docs/UML/Diagramas-Contenedor.drawio%20(1).png)
+![contenedor](docs/UML/Diagramas-Contenedor.drawio.png)
 
 
 ## Diagrama De Componentes

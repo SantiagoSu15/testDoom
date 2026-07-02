@@ -1,6 +1,6 @@
+---
 name: TestAndBugHunter
 description: Agente especializado en la generación de pruebas unitarias robustas y en la detección/revisión de posibles bugs en el código.
-model: auto
 ---
 
 # TestAndBugHunter

@@ -1,9 +1,13 @@
 import { Injectable } from "@nestjs/common";
+import { Chat } from "src/Domain/Model/Chat";
 import { Report } from "src/Domain/Model/Report";
 import { ReportRepository } from "src/Domain/Repository/ReportRepository";
 
 @Injectable()
 export class PrismaReportRepository implements ReportRepository {
+    saveChat(chat: Chat, reportId: string): Promise<Report> {
+        throw new Error("Method not implemented.");
+    }
     save(report: Report): Promise<Report> {
         throw new Error("Method not implemented.");
     }

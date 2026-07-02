@@ -6,13 +6,20 @@ import { REPORT_PORTS } from "src/Application/Ports/Out/ReportTokens";
 import { ReportUserDTO } from "src/Infrastructure/Inbound/Report/ReportDTOS";
 import { ReportStatus } from "src/Domain/Model/Enum/ReportStatus";
 import { randomUUID } from "crypto";
+import type { ChatRepository } from "src/Domain/Repository/ChatRepository";
+import { CHAT_PORTS } from "src/Application/Ports/Out/ChatTokens";
+import { Chat } from "src/Domain/Model/Chat";
 
 
 @Injectable()
 export class ReportUserImpl implements ReportUserUseCase{
     constructor(
         @Inject(REPORT_PORTS.ReportRepository)
-        private readonly reportRepository: ReportRepository) 
+        private readonly reportRepository: ReportRepository,
+
+        @Inject(CHAT_PORTS.ChatRepository)
+        private readonly chatRepository : ChatRepository
+    ) 
         {}
 
     async ReportUser(reportDTO: ReportUserDTO): Promise<Report> {
@@ -27,6 +34,9 @@ export class ReportUserImpl implements ReportUserUseCase{
             reportDTO.reportParticipantId,
             reportDTO.reportTravelId,
         );
+
+        const chat : Chat = await this.chatRepository.findByTravelId(reportDTO.reportTravelId);
+        this.reportRepository.saveChat(chat,report.reportId);
         return await this.reportRepository.save(report);
     }
 }

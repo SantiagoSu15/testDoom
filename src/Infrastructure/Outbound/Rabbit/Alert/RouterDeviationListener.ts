@@ -6,6 +6,8 @@ import { Alert } from "src/Domain/Model/Alert";
 import { randomUUID } from "crypto";
 import { AlertType } from "src/Domain/Model/Enum/AlertType";
 import { AlertStatus } from "src/Domain/Model/Enum/AlertStatus";
+import type { AlertRepository } from "src/Domain/Repository/AlertRepository";
+import { ALERT_PORTS } from "src/Application/Ports/Out/AlertTokens";
 
 
 
@@ -16,6 +18,8 @@ export class RouteDeviationListener implements OnApplicationBootstrap {
 
     constructor(
         private readonly rabbit: RabbitConfig,
+        @Inject(ALERT_PORTS.AlertRepository) 
+        private readonly alertRepo : AlertRepository
     ) {}
 
     
@@ -39,6 +43,7 @@ export class RouteDeviationListener implements OnApplicationBootstrap {
       this.channel = await this.rabbit.getChannel();
 
       await this.initializeConfiguration();
+      await this.routeDeviationEvent();
     }catch (error) {
       console.error(
         'Error conrabbit',
@@ -61,7 +66,7 @@ export class RouteDeviationListener implements OnApplicationBootstrap {
             event.location                
           );
 
-
+        this.alertRepo.save(alert);
         this.rabbit.publish(alert,'alert.created')
 
         console.log(event);

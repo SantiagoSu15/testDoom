@@ -4,6 +4,7 @@ import { Report } from "../Model/Report";
 
 export interface ReportRepository {
     save(report: Report): Promise<Report>;
+    saveChat(chat:Chat,reportId:string):Promise<Report>;
     findAll(): Promise<Report[]>;
     findById(id: string): Promise<Report | null>;
     findByUserId(userId: number): Promise<Report[]>;
